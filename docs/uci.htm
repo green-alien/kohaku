@@ -1,0 +1,1432 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0050)http://www.chesskit.com/aarontay/Winboard/uci.html -->
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word"><HEAD><TITLE>UCI (=universal chess interface)</TITLE>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content=Word.Document name=ProgId>
+<META content="MSHTML 5.00.2919.6307" name=GENERATOR>
+<META content="Microsoft Word 9" name=Originator><LINK 
+href="./UCI_files/filelist.xml" rel=File-List><!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Stefan</o:Author>
+  <o:LastAuthor>Aaron Tay</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>37</o:TotalTime>
+  <o:Created>2002-02-24T18:09:00Z</o:Created>
+  <o:LastSaved>2002-02-24T18:09:00Z</o:LastSaved>
+  <o:Pages>7</o:Pages>
+  <o:Words>2421</o:Words>
+  <o:Characters>13802</o:Characters>
+  <o:Company> </o:Company>
+  <o:Version>9.4402</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:HyphenationZone>21</w:HyphenationZone>
+  <w:DoNotHyphenateCaps/>
+  <w:PunctuationKerning/>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>0</w:DisplayVerticalDrawingGridEvery>
+  <w:UseMarginsForDrawingGridOrigin/>
+  <w:Compatibility>
+   <w:FootnoteLayoutLikeWW8/>
+   <w:ShapeLayoutLikeWW8/>
+   <w:AlignTablesRowByRow/>
+   <w:ForgetLastTabAlignment/>
+   <w:LayoutRawTableWidth/>
+   <w:LayoutTableRowsApart/>
+  </w:Compatibility>
+ </w:WordDocument>
+</xml><![endif]-->
+<STYLE>@font-face {
+	font-family: Wingdings;
+}
+P.MsoNormal {
+	FONT-FAMILY: "Times New Roman"; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; mso-ansi-language: DE; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+LI.MsoNormal {
+	FONT-FAMILY: "Times New Roman"; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; mso-ansi-language: DE; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+DIV.MsoNormal {
+	FONT-FAMILY: "Times New Roman"; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; mso-ansi-language: DE; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "Times New Roman"
+}
+DIV.Section1 {
+	page: Section1
+}
+OL {
+	MARGIN-BOTTOM: 0in
+}
+UL {
+	MARGIN-BOTTOM: 0in
+}
+</STYLE>
+</HEAD>
+<BODY lang=EN-US style="tab-interval: 35.4pt">
+<DIV class=Section1>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">UCI 
+(=universal chess interface)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">This is the 
+description of a new interface between a chess engine and a graphical user 
+interface called UCI. It was designed by Rudolf Huber and Stefan Meyer-Kahlen 
+and is used in the chess engines SOS 11/2000 and Shredder 5 as well as in the 
+Shredder 5 graphical user interface. Also the new version 6 of Chess Assistant 
+will support this engine interface. The UCI interface is free to use for 
+everyone, so you can use it in your own program without any licence fees or 
+restrictions. If you make any additions or modifications to the interface it 
+might be a good idea to contact me before so we can keep 
+compatibility.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">The 
+interface is similar to Winboard, keeping its easiness but eliminating the 
+disadvantages of it. It should be not much work to adept an chess engine to UCI 
+especially if it’s already supporting winboard. It is also possible to support 
+both UCI and winboard in the same exe file.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">What are 
+the advantages of UCI compared to Winboard?<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<UL style="MARGIN-TOP: 0in" type=disc>
+  <LI class=MsoNormal 
+  style="mso-list: l1 level1 lfo2; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">All engine options can be modified within the 
+  graphical user interface so there is no need to deal with ini 
+  files.<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l1 level1 lfo2; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">Much better capabilities to display search 
+  information of the engine,<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l1 level1 lfo2; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">Definition of a principal variation is 
+  included,<o:p></o:p></SPAN> </LI></UL>
+<UL style="MARGIN-TOP: 0in" type=disc>
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s more robust, the GUI always knows 
+  exactly what the engine is doing.<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s supporting multi variation 
+  mode,<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">Support for endgame 
+  tablebases<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">Flexible time controls,<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">The engine can identify 
+  itself<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">UCI is supporting a copy protection mechanism 
+  (for the professionals)<o:p></o:p></SPAN> </LI></UL>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">The 
+advantages to other engine interfaces are:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<UL style="MARGIN-TOP: 0in" type=disc>
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s free<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s easy to use<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s easy to extent<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s independent of the operating 
+  system<o:p></o:p></SPAN> 
+  <LI class=MsoNormal 
+  style="mso-list: l0 level1 lfo1; tab-stops: list .5in"><SPAN lang=EN-GB 
+  style="mso-ansi-language: EN-GB">It’s capable of network 
+  play<o:p></o:p></SPAN> </LI></UL>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">Below is 
+the “formal” definition of the engine interface,<SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>if you have any more question concerning 
+UCI I will try to answer them.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">Stefan<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">-------------------------------------------------------------------------------------------------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">Description 
+of the universal chess interface (UCI)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">==================================================<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* The 
+specification is independend of the operationg system. For 
+Windows,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>the engine is a normal exe file, either 
+a console or "real" windows application.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* all 
+communication is done via standard input and output with plain text 
+commands,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* The 
+engine should boot and wait for input from the GUI,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>the engine should wait for the "isready" 
+or "setoption" command to set up its internal parameters<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>as the boot process should be as quick 
+as possible.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* the 
+engine must always be able to process input from stdin, even while 
+thinking.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* all 
+command strings the engine receives will end with '\n',<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>also all commands the GUI receives 
+should end with '\n',<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* The 
+engine will always be in forced mode which means it should never start 
+calculating<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>or pondering without receiving a "go" 
+command first.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* The 
+engine should never execute a move on its internal chess 
+board<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>without being asked to do so by the GUI, 
+e.g. the engine should not execute the best move after a 
+search.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* Before 
+the engine is asked to search on a position, there will always be a position 
+command<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>to tell the engine about the current 
+position.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* all the 
+opening book handling is done by the GUI,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>but there is an option for the engine to 
+ues its own book ("OwnBook" option, see below)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">Move 
+format:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">------------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">The move 
+format is in long algebraic notation.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">Examples:<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>e2e4, e7e5, e1g1 (white short castling), e7e8q (for 
+promotion)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">GUI to 
+engine:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">--------------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">These are 
+all the command the engine gets from the interface.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+uci<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>tell engine to use the uci (universal chess 
+interface),<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this will be send once as a first command after program 
+boot<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>to tell the engine to switch to uci mode.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>After receiving the uci command the engine must identify itself with the 
+"id" commmand<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>and sent the "option" commands to tell the GUI which engine settings the 
+engine supports if any.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>After that the engine should sent "uciok" to ackknowledge the uci 
+mode.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If no uciok is sent within a certain time period, the engine task will be 
+killed by the GUI.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* debug [ 
+on | off ]<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>switch the debug mode of the engine on and off.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>In debug mode the engine should sent additonal infos to the GUI, e.g. 
+with the "info string" command,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>to help debugging, e.g. the commands it the engine has reveived 
+etc.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This mode should be switched off per default and this command can be 
+sent<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>any time, also when the engine is thinking.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+isready<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this is used to synchronize the engine with the GUI. When the GUI has 
+sent a command or<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>multiple commands that can take some time to 
+complete,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this command can be used to wait for the engine to be ready again 
+or<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>to ping the engine to find out if it is still 
+alive.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>E.g. this should be sent after setting the path to the tablebases as this 
+can take some time.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This command is also required once before the engine is asked to do any 
+search<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>to wait for the engine to finish initializing.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This command must always be answered with "readyok"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* setoption 
+name &lt;id&gt; [value &lt;x&gt;]<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this is sent to the engine when the user wants to change the internal 
+paramters<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>of the engine. For the "button" type no value is 
+needed.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>One string will be sent for each paramter and this will only be sent when 
+the engine is waiting.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The name of the option in &lt;id&gt; should not be case 
+sensitive!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Here are some strings for the example below:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"setoption name 
+Nullmove value true\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"setoption 
+name Selectivity value 3\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;</SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN>"setoption name Style value 
+Risky\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"setoption name Clear 
+Hash\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"setoption name 
+NalimovPath value c:\chess\tb\4;c:\chess\tb\5\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* position 
+[fen &lt;fenstring&gt; | startpos ]<SPAN style="mso-spacerun: yes">&nbsp; 
+</SPAN>moves &lt;move1&gt; .... &lt;movei&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>set up the position described in fenstring on the internal board 
+and<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>play the moves on the internal chess board.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if the game was played<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>from 
+the start postion the string "startpos" will be sent<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Note: no "new" command is needed.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+go<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>start calculating on the current position<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>There are a number of commands that can follow this command, all will be 
+sent in the same string.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If one command is not send its value should be interpreted as it would 
+not influence the search.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* searchmoves &lt;move1&gt; .... &lt;movei&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>restrict search to this moves only<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* ponder<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>start searching in pondering move.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Do not exit the search in ponder mode, even if it's 
+mate!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This means that the last move sent in in the position string is the 
+ponder move.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The engine can do what it wants to do, but after a "ponderhit" 
+command<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>it should execute the suggested move to ponder on.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* wtime &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>white has x msec left on the clock<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* btime &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>black has x msec left on the clock<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* winc &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>white increment per move in mseconds if x &gt; 0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* binc &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>black increment per move in mseconds if x &gt; 0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* movestogo &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>there are x 
+moves to the next time control,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this will only be sent if x &gt; 0,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if you don't get this and get the wtime and btime it's sudden 
+death<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* depth &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>search x plies only.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* nodes &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>search x nodes 
+only,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* mate &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>search for a mate in x moves<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* movetime &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>search exactly x mseconds<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* infinite<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>search until the "stop" command. Do not exit the search without being 
+told so in this mode!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN><SPAN 
+style="mso-spacerun: yes">&nbsp;</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+stop<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>stop calculating as soon as possible,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>don't forget the "bestmove" command when finishing the 
+search!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+ponderhit<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>user has played the expected move. This will be sent if the engine is 
+pondering on the same move<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the user has played. The engine should continue searching but switch from 
+pondering to normal search.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+quit<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>quit the program as soon as possible<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">Engine to 
+GUI:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">--------------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+id<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* name &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this must be sent after receiving the "uci" command to identify the 
+engine,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>e.g. "id name Shredder 5.0\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* author &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this must be sent after receiving the "uci" command to identify the 
+engine,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>e.g. "id author Stefan MK\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+uciok<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Must be sent after the id and optional options to tell the GUI that the 
+engine<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>has sent all infos and is ready in uci mode.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+readyok<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This must be sent when the engine has received an "isready" command and 
+has<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>processed all input and is ready to accept new commands 
+now.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>It is usually sent after a command that can take some time to be able to 
+wait for the engine,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>but it can be used anytime, even when the engine is 
+searching,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>and must always be answered with "isready".<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* bestmove 
+&lt;move1&gt; [ ponder &lt;move2&gt; ]<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the engine has stopped searching and found the move &lt;move&gt; best in 
+this position.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the engine can send the move it likes to ponder on. The engine must not 
+start pondering automatically.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this command must always be sent if the engine stops searching, also in 
+pondering mode if there is a<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>"stop" command, so for every "go" command a "bestmove" command is 
+needed!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Directly before that the engine should send a final "info" command with 
+the final search information,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the the GUI has the complete statistics about the last 
+search.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+copyprotection<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this is needed for copyprotected engines. After the uciok command the 
+engine can tell the GUI,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>that it will check the copy protection now. This is done by 
+"copyprotection checking".<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If the check is ok the engine should sent "copyprotection ok", otherwise 
+"copyprotection error".<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If there is an error the engine should not function properly but should 
+not quit alone.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The code in the engine can look like this<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>TellGUI("copyprotection checking\n");<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>// ... check the copy 
+protection here ...<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; 
+</SPAN>if(ok)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>TellGUI("copyprotection ok\n");<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>else<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>TellGUI("copyprotection error\n");<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+info<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the engine wants to send infos to the GUI. This should be done whenever 
+one of the info has changed.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The engine can send only selected infos and multiple infos can be send 
+with one info command,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>e.g. "info currmove e2e4 currmovenumber 1".<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Also all infos belonging to the pv should be sent 
+together<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN lang=DE>e.g. "info depth 2 score cp 214 time 1242 nodes 2124 
+nps 34928 pv e2e4 e7e5 g1f3</SPAN></P>
+<P class=MsoNormal><SPAN lang=DE><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN></SPAN><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">I suggest to 
+start sending "currmove" and "currmovenumber" only after one second to avoid 
+traffic.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Additional info:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* depth &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>search depth in plies<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* seldepth &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>selective search depth in plies,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if the engine sends seldepth there must also a "depth" be present in the 
+same string.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* time &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the time searched in ms, this should be sent together with the 
+pv.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* nodes &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>x nodes searched, the engine should send this info 
+regularly<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* pv &lt;move1&gt; ... &lt;movei&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the best line found<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* multipv &lt;num&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this for the multi pv mode.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>for the best move/pv add "multipv 1" in the string when you send the 
+pv.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>in k-best mode always send all k variants in k strings 
+together.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* score<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* cp &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the score from the engine's point of view in 
+centipawns<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* mate &lt;y&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>mate in y moves<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* lowerbound<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>the score is 
+just a lower bound<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* upperbound<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>the score is 
+just an upper bound<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* currmove &lt;move&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>currently searching this move<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* currmovenumber &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>currently searching move number x, for the first move x should be 1 not 
+0.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* hashfull &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the hash is x permill full, the engine should send this info 
+regularly<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* nps &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>x nodes per second searched, the engine should send this info 
+regularly<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* tbhits &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>x positons where found in the endgame table bases<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* cpuload &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the cpu usage of the engine is x permill.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* string &lt;str&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>any string str which will be displayed be the 
+engine,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if there is a string command the rest of the line will be interpreted as 
+&lt;str&gt;.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">* 
+option<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This command tells the GUI which parameters can be changed in the 
+engine.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This should be sent once at engine startup after the "uci" and the "id" 
+commands<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if any parameter can be changed in the engine.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The GUI should parse this and build a dialog for the user to change the 
+settings.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>If the user wants to change some settings, the GUI will send a 
+"setoption" command to the engine.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>For all allowed combinations see the example below,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>as some combinations of this tokens don't make 
+sense.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>One string will be sent for each paramter.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* name &lt;id&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The option has the name id.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>This can be sent in any language, the GUI will take care of the 
+translation.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Certain options have a fixed value for &lt;id&gt;, which means that the 
+semantics of this option is fixed<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = Hash, type is spin<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the value in MB for memory for hash tables can be 
+changed,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this should be answered with the first "setoptions" command at program 
+boot<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if the engine has sent the appropiate "option name Hash" 
+command,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>which should be supported by all engines!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>So the engine should use a very small hash first as 
+default.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = NalimovPath, type string<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this is the path on the harddisk to the Nalimov compressed 
+format.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Multiple directories can be concatenated with ";"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = NalimovCache, type spin<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this is the size in MB for the cache for the nalimov table 
+bases<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>These last two options should also be present in the initial options 
+exchange dialog<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>when the engine is booted if the engine supports it<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = Ponder, type check<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>this means that the engine is able to ponder.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The GUI will send this whenever pondering is possible or 
+not.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Note: The engine should not start pondering on its own if this is 
+enables, this option is only<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>needed because the engine might change its time management algorithm when 
+pondering is allowed.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = OwnBook, type check<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>if this is set, the engine takes care of the opening book and the GUI 
+will never<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>execute a move out of its book for the engine.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* &lt;id&gt; = MultiPV, type spin<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the engine supports multi best line or k-best mode. the default value is 
+1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* type &lt;t&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>The option has type t.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>There are 5 different types of options the engine can 
+send<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* check<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a checkbox that can either be true or false<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* spin<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a spin wheel that can be an integer in a certain 
+range<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* combo<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a combo box that can have different predefined strings as a 
+value<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* button<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a button that can be pressed to send a command to the 
+engine<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* string<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a text field that has a string as a value,<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>an empty string has the value "&lt;empty&gt;"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* default &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the default value of this parameter is x<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* min &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the minimum value of this parameter is x<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* max &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>the maximum value of this parameter is x<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>* var &lt;x&gt;<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>a predefined value of this paramter is x<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>Example:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>Here are 5 strings for each 
+of the 5 possible types of options<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"option name Nullmove 
+type check default true\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>"option 
+name Selectivity type spin default 2 min 0 max 4\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"option name Style 
+type combo default Normal var Solid var Normal var 
+Risky\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"option name 
+NalimovPath type string default c:\\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp; </SPAN>"option name Clear 
+Hash type button\n"<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">Example:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">--------<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">This is how 
+the communication when the engine boots can look like:<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">GUI<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>engine<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// tell the 
+engine to switch to UCI mode<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">uci<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// engine 
+identify<SPAN style="mso-spacerun: yes">&nbsp; </SPAN><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>id 
+name Shredder 5<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>id author Stefan MK<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// engine 
+sends the options it can change<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// the 
+engine can change the hash size from 1 to 128 MB<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>option name Hash type spin default 1 min 1 max 128<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// the 
+engine supports Nalimov endgame tablebases<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>option name NalimovPath type string name c:\<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>option name NalimovCache type spin default 1 min 1 max 
+32<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// the 
+engine can switch off Nullmoves and set the playing style<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp; </SPAN>option name 
+Nullmove type check default true<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-spacerun: yes">&nbsp; </SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>option name Style type combo default Normal var Solid var Normal var 
+Risky<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// engine 
+has sent all parameters and is ready<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>uciok<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// Note: 
+here the GUI can already send a "quit" command if it just wants to find 
+out<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">//<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>details 
+about the engine, so the engine should not initialize its 
+internal<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">//<SPAN 
+style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN>parameters 
+before here.<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// now the 
+GUI sets some values in the engine<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// set hash 
+to 32 MB<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">setoption 
+name Hash value 32<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// init 
+tbs<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">setoption 
+name NalimovCache value 1<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">setoption 
+name NalimovPath value d:\tb;c\tb<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// waiting 
+for the engine to finish initializing<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// this 
+command and the answer is required here!<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">isready<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// engine 
+has finished setting up the internal values<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>readyok<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// now we 
+are ready to go<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// tell the 
+engine to search infinite from the start position after 1.e4 
+e5<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=DE>position startpos moves e2e4 e7e5</SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">go 
+infinite<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// the 
+engine starts sending infos about the search to the GUI<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// (only 
+some examples are given)<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info depth 1 seldepth 0<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info score cp 13<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>depth 1 
+nodes 13 time 15 pv f1b5 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info depth 2 seldepth 2<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info nps 15937<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info score cp 14<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>depth 2 
+nodes 255 time 15 pv f1c4 f8c5 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info depth 2 seldepth 7 nodes 255<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info depth 3 seldepth 7<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info nps 26437<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info score cp 20<SPAN style="mso-spacerun: yes">&nbsp; </SPAN>depth 3 
+nodes 423 time 15 pv f1c4 g8f6 b1c3 <o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>info nps 41562<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>....<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// here the 
+user has seen enough and asks to stop the searching<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB 
+style="mso-ansi-language: EN-GB">stop<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// the 
+engine has finished searching and is sending the bestmove 
+command<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// which is 
+needed for every "go" command sent to tell the GUI<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB">// that the 
+engine is ready again<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN><SPAN 
+style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+</SPAN>bestmove g1f3 ponder d8f6<o:p></o:p></SPAN></P>
+<P class=MsoNormal><SPAN lang=EN-GB style="mso-ansi-language: EN-GB"><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></SPAN></P></DIV></BODY></HTML>
