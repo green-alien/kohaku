@@ -1,6 +1,7 @@
 //#![allow(dead_code)]
 use std::str::Split;
 use crate::uci::dispatcher::commands as send;
+use crate::config;
 
 /// receiver commands
 
@@ -33,8 +34,8 @@ pub fn debug(mut args: Split<&str>) -> () {
 	let beta = args.next().unwrap();
 
 	match  beta {
-		"on" => () /*set options state dubug true*/,
-		"off" => () /*set options state debug false*/,
+		"on" => config::set_debug(true),
+		"off" => config::set_debug(false) ,
 		_ => debug(args), // recurse on unrecognized tokens
 	}
 }

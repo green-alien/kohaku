@@ -1,5 +1,7 @@
 use std::thread;
 mod uci;
+mod config;
+
 
 fn runtime_init() -> () {
     uci::receiver::spawn();
