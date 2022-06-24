@@ -5,11 +5,11 @@ use std::str::Split;
 mod commands; //reciver/commands.rs
 
 /** spawn
- * spawn a thread that listens to stdio and sends incoming commands to a parser
+ * spawn a thread that listens to stdin and sends incoming commands to a parser
  */
 pub fn spawn() -> () {
     std::thread::Builder::new()
-        .name("listener-stdio".to_string())
+        .name("listener-stdin".to_string())
         .spawn(|| {
             loop {
                 let mut buff = String::new();
