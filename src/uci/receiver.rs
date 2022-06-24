@@ -18,7 +18,8 @@ pub fn spawn() -> () {
                     .unwrap();
                 parse_uci(buff);
             }   
-        }).unwrap();
+        })
+        .unwrap();
 }
 
 /** parse_uci
