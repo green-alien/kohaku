@@ -25,7 +25,7 @@ pub fn spawn() -> () {
 /** parse_uci
  * read incomming commands and execute related internal interface
  */
-fn parse_uci(comm: String) -> () {
+pub fn parse_uci(comm: String) -> () {
     std::thread::spawn(move || {
         let clean = comm.as_str().replace("\n", "");
         let command = clean.split(" ");
