@@ -2,8 +2,9 @@
 use crate::chess::bitboard::BitBoard;
 use crate::chess::index::Index;
 
-pub const UNIVERSE : BitBoard = BitBoard::new(0xffffffffffffffff);
-pub const EMPTY    : BitBoard = BitBoard::new(               0x0);
+
+const UNIVERSE     : BitBoard = BitBoard::new(0xffffffffffffffff);
+const EMPTY        : BitBoard = BitBoard::new(               0x0);
 const NOT_A_FILE   : BitBoard = BitBoard::new(0xfefefefefefefefe);
 const NOT_H_FILE   : BitBoard = BitBoard::new(0x7f7f7f7f7f7f7f7f);
 const NOT_1_RANK   : BitBoard = BitBoard::new(0xffffffffffffff00);
@@ -27,7 +28,7 @@ pub fn king_mask(index: Index) -> BitBoard {
         else if pos & NOT_8_RANK == EMPTY {mask &= NOT_1_RANK}
         if pos & NOT_A_FILE == EMPTY {mask &= NOT_H_FILE}
         else if pos & NOT_H_FILE == EMPTY {mask &= NOT_A_FILE}
-        mask.unwrap()
+        mask.u()
     };
 
     // 0x8380000000000382
@@ -41,7 +42,7 @@ pub fn king_mask(index: Index) -> BitBoard {
     // 1|0 1 0 0 0 0 0 1
     //   a b c d e f g h
     let km = 0x8380000000000382u64;
-
+    
     // rotate king move pattern to the approriate index
     // mask outer files and columns to prevent wrapping
     BitBoard::new(km.rotate_left(i) & king_anti_wrap_mask())
@@ -63,7 +64,7 @@ pub fn knight_mask(index: Index) -> BitBoard {
         else if pos & NOT_78_RANK == EMPTY {mask &= NOT_12_RANK}
         if pos & NOT_AB_FILE == EMPTY {mask &= NOT_GH_FILE}
         else if pos & NOT_GH_FILE == EMPTY {mask &= NOT_AB_FILE}
-        mask.unwrap()
+        mask.u()
     };
 
     //     0x442800000028440

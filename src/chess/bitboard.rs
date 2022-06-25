@@ -1,9 +1,11 @@
 //use crate::debug::*;
 //use crate::chess::index::Index;
-use std::ops::{BitAnd, BitOr, BitXor, Shl, Shr, 
-    BitAndAssign, BitOrAssign, BitXorAssign};
+use std::ops::{
+    BitAnd, BitOr, BitXor, Shl, Shr, 
+    BitAndAssign, BitOrAssign, BitXorAssign
+};
 use std::fmt;
-
+use bitintr::Pext;
 
 /// a little endian, row-major, turth table for a chess board
 #[derive(PartialEq, Clone, Copy)]
@@ -30,7 +32,7 @@ impl BitBoard {
     }
 
     // Contents of BitBoard
-    pub fn unwrap(self) -> u64 {
+    pub fn u(self) -> u64 {
         self.0
     }
 
@@ -78,16 +80,20 @@ impl BitBoard {
         BitBoard(x)
     }
 
-    pub fn clockwise(self) -> BitBoard {
+    pub fn clockwise(&self) -> BitBoard {
         self.flip_diag_a1h8().flip_vertical()
     }
 
-    pub fn anti_clockwise(self) -> BitBoard {
+    pub fn anti_clockwise(&self) -> BitBoard {
         self.flip_vertical().flip_diag_a1h8()
     }
 
-    pub fn turn_pi_radians(self) -> BitBoard {
+    pub fn turn_pi_radians(&self) -> BitBoard {
         self.flip_vertical().mirror_horizontal()
+    }
+
+    pub fn pext(&self, mask: u64) -> () {
+        self.0.pext(mask);
     }
 }
 
@@ -164,7 +170,31 @@ impl Shr for BitBoard {
 
 // make me look pretty
 impl fmt::Display for BitBoard {
-    fn fmt(&self, _f: &mut fmt::Formatter) -> fmt::Result {
-        todo!()
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    
+        let n = self.u();
+        // hex reperesentation for consise reference
+        let mut output = "    {:#xn}".to_owned();
+        // print the board from white's pov
+        //rows
+        for i in 0..8 {
+            output.push_str("{8 - i}     ");
+            //columns
+            for j in 0..8 {
+                // print!("{} ", b.get((7 - i) * 8 + j));
+                let b = get(*self, (7 - i) * 8 + j);
+                output.push_str("{b}");
+            }
+            // new line after each row
+            //println!();
+            output.push('\n')
+        }
+        // column letters
+        output.push_str("      a b c d e f g h");
+        writeln!(f, "{}", output)
     }
+}
+
+fn get(b: BitBoard, i: usize) -> usize {
+    ((b.u() >> i) & 1) as usize
 }
