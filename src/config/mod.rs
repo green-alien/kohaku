@@ -1,3 +1,4 @@
+/// this module uses rust black magic to create a globaly accessable configuration state for the engine
 
 use std::sync::{Mutex, Once};
 use std::borrow::BorrowMut;
@@ -14,6 +15,7 @@ static INIT: Once = Once::new();
 /** config
  * get a reference to the struct representing the engine's configuation 
  * used internaly within this module only
+   initializes CONF on first execution
  */
 fn config<'a>() -> &'a Mutex<Config> {
     // call once black magic

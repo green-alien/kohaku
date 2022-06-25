@@ -1,4 +1,6 @@
-//#![allow(dead_code)]
+/// this module uses contains the internal uci interface for the engine
+/// it also contains the tools to parse longer uci subb commands
+
 use std::str::Split;
 use crate::uci::dispatcher::commands as send;
 use crate::config;
@@ -30,9 +32,7 @@ pub fn uci() -> () {
 	any time, also when the engine is thinking.
  */
 pub fn debug(mut args: Split<&str>) -> () {
-
 	let beta = args.next().unwrap();
-
 	match  beta {
 		"on" => config::set_debug(true),
 		"off" => config::set_debug(false) ,
@@ -73,7 +73,7 @@ pub fn setoption(_args: Split<&str>) -> () { todo!() }
 
 /** register
  * this is the command to try to register an engine or to tell the engine that registration
-	will be done later. This command should always be sent if the engine	has sent "registration error"
+	will be done later. This command should always be sent if the engine has sent "registration error"
 	at program startup.
 	The following tokens are allowed:
 	* later
@@ -89,7 +89,7 @@ pub fn setoption(_args: Split<&str>) -> () { todo!() }
 pub fn register() -> () { todo!() }
 
 /** ucinewgame
- * his is sent to the engine when the next search (started with "position" and "go") will be from
+ * this is sent to the engine when the next search (started with "position" and "go") will be from
    a different game. This can be a new game the engine should play or a new game it should analyse but
    also the next position from a testsuite with positions only.
    If the GUI hasn't sent a "ucinewgame" before the first "position" command, the engine shouldn't

@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+/// this moddule contains the engine's internal interface to make outgoing commands with uci
 
 use std::io::{self, Write};
 
@@ -22,9 +23,8 @@ fn dispatch(s: &str) -> io::Result<()> {
 		e.g. "id author Stefan MK\n"
  */
 pub fn id() -> () {
-	dispatch("id name Kohaku 0.0
-	id author green-alien @ \"https://github.com/green-alien\"\n"
-	).unwrap();
+	dispatch("id name Kohaku 0.0\nid author green-alien @ \"https://github.com/green-alien\"\n")
+	.unwrap();
 }
 
 /** uciok
@@ -179,7 +179,7 @@ pub fn info() -> () { todo!() }
 		The option has the name id.
 		Certain options have a fixed value for <id>, which means that the semantics of this option is fixed.
 		Usually those options should not be displayed in the normal engine options window of the GUI but
-		get a special treatment. "Pondering" for example should be set automatically when pondering is
+		some get special treatment. "Pondering" for example should be set automatically when pondering is
 		enabled or disabled in the GUI options. The same for "UCI_AnalyseMode" which should also be set
 		automatically by the GUI. All those certain options have the prefix "UCI_" except for the
 		first 6 options below. If the GUI gets an unknown Option with the prefix "UCI_", it should just
