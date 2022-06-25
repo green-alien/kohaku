@@ -1,6 +1,7 @@
 use std::thread;
 mod uci;
 mod config;
+mod chess;
 
 
 fn runtime_init() -> () {
