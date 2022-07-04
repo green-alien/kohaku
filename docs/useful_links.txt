@@ -19,3 +19,17 @@ https://www.sitepoint.com/rust-global-variables/#multithreadedglobalswithruntime
 * chess
 
 https://www.chessprogramming.org/Flipping_Mirroring_and_Rotating#Horizontal
+
+https://www.chessprogramming.org/Efficient_Generation_of_Sliding_Piece_Attacks#Bitboard_Basics
+
+https://www.codeproject.com/Articles/5313417/Worlds-Fastest-Bitboard-Chess-Movegenerator
+
+https://www.researchgate.net/publication/44897543_Space-efficient_Indexing_of_Chess_Endgame_Tables
+
+https://www.arasanchess.org/programr.shtml
+
+https://www.youtube.com/watch?v=1lAM8ffBg0A
+
+https://www.chessprogramming.org/On_an_empty_Board
+
+https://stackoverflow.com/questions/67513005/how-to-generate-this-preinitialized-array-for-magic-bitboards
