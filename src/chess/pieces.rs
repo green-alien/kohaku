@@ -10,8 +10,11 @@ pub enum Color {
 #[derive(PartialEq, Eq, Hash, Debug, Clone, Copy)]
 pub enum Type {
     King,
+    Queen,
     Rook,
+    Bishop,
     Knight,
+    Pawn,
 }
 
 #[derive(PartialEq, Eq, Hash, Debug)]
@@ -24,9 +27,13 @@ impl Piece {
             Color::White => ['♔','♙','♕','♖','♗','♘']
         };
         let ch = match self.0{
-            Type::King => arr[0],
-            Type::Rook => arr[3],
+            Type::King   => arr[0],
+            Type::Pawn   => arr[1],
+            Type::Queen  => arr[2],
+            Type::Rook   => arr[3],
+            Type::Bishop => arr[4],
             Type::Knight => arr[5],
+
         };
         ch
     }
