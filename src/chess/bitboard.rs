@@ -32,7 +32,7 @@ impl BitBoard {
     }
 
     // Contents of BitBoard
-    pub fn u(self) -> u64 {
+    pub fn is(self) -> u64 {
         self.0
     }
 
@@ -40,11 +40,10 @@ impl BitBoard {
         self.0.trailing_zeros()
     }
 
-
     // shamelessly copied form people way smarter than me:
     // https://www.chessprogramming.org/Flipping_Mirroring_and_Rotating#Horizontal
     
-    pub fn flip_vertical(self) -> BitBoard {
+    pub fn flip_vertical(&self) -> BitBoard {
         let mut x = self.0;
         let k1 = 0x00ff00ff00ff00ffu64;
         let k2 = 0x0000ffff0000ffffu64;
@@ -54,7 +53,7 @@ impl BitBoard {
         BitBoard(x)
     }
 
-    pub fn mirror_horizontal(self) -> BitBoard {
+    pub fn mirror_horizontal(&self) -> BitBoard {
         let mut x = self.0;
         let k1 = 0x5555555555555555u64;
         let k2 = 0x3333333333333333u64;
@@ -65,7 +64,7 @@ impl BitBoard {
         BitBoard(x)
     }
 
-    pub fn flip_diag_a1h8(self) -> BitBoard{
+    pub fn flip_diag_a1h8(&self) -> BitBoard{
         let mut x = self.0;
         let mut t;
         let k1 = 0x5500550055005500u64;
@@ -92,8 +91,21 @@ impl BitBoard {
         self.flip_vertical().mirror_horizontal()
     }
 
-    pub fn pext(&self, mask: u64) -> () {
-        self.0.pext(mask);
+    pub fn pext(&self, mask: u64) -> u64 {
+        self.0.pext(mask)
+    }
+
+    // https://www.chessprogramming.org/Traversing_Subsets_of_a_Set
+    pub fn carry_rippler(b :BitBoard) -> Vec<BitBoard> {
+        let d = b.is();
+        let mut n = 0u64;
+        let mut v = vec!();
+        loop {
+            v.push(BitBoard::new(n));
+            n = (n - d) & d;
+            if n == 0 {break}
+        }
+        v
     }
 }
 
@@ -168,33 +180,44 @@ impl Shr for BitBoard {
     }
 }
 
+// do it over and over and over and over and over and over and over and ...
+impl Iterator for BitBoard {
+    type Item = BitBoard;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.0 == 0 {return None}
+        let bit = BitBoard(1<< self.trailing_zeros());
+        *self ^= bit;
+        Some(bit)
+    }
+}
+
 // make me look pretty
 impl fmt::Display for BitBoard {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     
-        let n = self.u();
+        let n = self.is();
         // hex reperesentation for consise reference
-        let mut output = "    {:#xn}".to_owned();
+        let mut output = format!("    {:#x}\n", n);
         // print the board from white's pov
         //rows
         for i in 0..8 {
-            output.push_str("{8 - i}     ");
+            let row = 8 - i;
+            output = format!("{}{}     ", output, row);
             //columns
             for j in 0..8 {
-                // print!("{} ", b.get((7 - i) * 8 + j));
                 let b = get(*self, (7 - i) * 8 + j);
-                output.push_str("{b}");
+                output = format!("{}{} ", output, b)
             }
             // new line after each row
-            //println!();
             output.push('\n')
         }
         // column letters
-        output.push_str("      a b c d e f g h");
+        output.push_str("\n      a b c d e f g h");
         writeln!(f, "{}", output)
     }
 }
 
 fn get(b: BitBoard, i: usize) -> usize {
-    ((b.u() >> i) & 1) as usize
+    ((b.is() >> i) & 1) as usize
 }

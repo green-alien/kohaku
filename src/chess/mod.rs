@@ -2,7 +2,10 @@ mod attacks;
 mod bitboard;
 mod index;
 mod pieces;
+mod state;
 
-pub fn init_attack_tables()-> () {
-    
+use std::time::{Duration, SystemTime};
+
+pub fn init_attack_tables() -> () {
+
 }

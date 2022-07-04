@@ -32,7 +32,7 @@ pub fn uci() -> () {
 	any time, also when the engine is thinking.
  */
 pub fn debug(mut args: Split<&str>) -> () {
-	let beta = args.next().unwrap();
+	let beta = args.next().expect("failed to parse uci command given to debug");
 	match  beta {
 		"on" => config::set_debug(true),
 		"off" => config::set_debug(false) ,

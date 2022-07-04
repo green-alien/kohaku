@@ -31,7 +31,7 @@ pub fn parse_uci(comm: String) -> () {
         let command = clean.split(" ");
 
         fn parse(mut args: Split<&str>) -> () {
-            let alpha = args.next().unwrap();
+            let alpha = args.next().expect("failed to parse uci command");
             let args = args;
             match alpha {
                 "uci"        => commands::uci(),

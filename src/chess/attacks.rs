@@ -28,7 +28,7 @@ pub fn king_mask(index: Index) -> BitBoard {
         else if pos & NOT_8_RANK == EMPTY {mask &= NOT_1_RANK}
         if pos & NOT_A_FILE == EMPTY {mask &= NOT_H_FILE}
         else if pos & NOT_H_FILE == EMPTY {mask &= NOT_A_FILE}
-        mask.u()
+        mask.is()
     };
 
     // 0x8380000000000382
@@ -64,7 +64,7 @@ pub fn knight_mask(index: Index) -> BitBoard {
         else if pos & NOT_78_RANK == EMPTY {mask &= NOT_12_RANK}
         if pos & NOT_AB_FILE == EMPTY {mask &= NOT_GH_FILE}
         else if pos & NOT_GH_FILE == EMPTY {mask &= NOT_AB_FILE}
-        mask.u()
+        mask.is()
     };
 
     //     0x442800000028440
@@ -90,8 +90,8 @@ pub fn rook_mask(index: Index) -> BitBoard {
     let i = index as u32;
 
     // columns and rows
-    let column = 0x101010101010101u64;
-    let row = 0xffu64;
+    let column = 0x001010101010100u64;
+    let row = 0x7eu64;
     
     // shift columen and row and negate their intersection
     BitBoard::new(column.rotate_left(i % 8) ^ row.rotate_left(i - (i % 8)))

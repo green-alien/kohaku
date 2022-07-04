@@ -6,6 +6,8 @@ mod chess;
 
 fn runtime_init() -> () {
     uci::receiver::spawn();
+    config::set_debug(false);
+    chess::init_attack_tables();
 }
 
 fn main() {
