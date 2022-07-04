@@ -28,7 +28,7 @@ impl BitBoard {
 
     // initialize a new BitBoard
     pub const fn new(u: u64) -> BitBoard {
-        BitBoard(u)
+        Self(u)
     }
 
     // Contents of BitBoard
@@ -50,7 +50,7 @@ impl BitBoard {
         x = ((x >>  8) & k1) | ((x & k1) <<  8);
         x = ((x >> 16) & k2) | ((x & k2) << 16);
         x = ( x >> 32)       | ( x       << 32);
-        BitBoard(x)
+        Self(x)
     }
 
     pub fn mirror_horizontal(&self) -> BitBoard {
@@ -61,7 +61,7 @@ impl BitBoard {
         x = ((x >> 1) & k1) | ((x & k1) << 1);
         x = ((x >> 2) & k2) | ((x & k2) << 2);
         x = ((x >> 4) & k4) | ((x & k4) << 4);
-        BitBoard(x)
+        Self(x)
     }
 
     pub fn flip_diag_a1h8(&self) -> BitBoard{
@@ -76,7 +76,7 @@ impl BitBoard {
         x ^=       t ^ (t >> 14) ;
         t  = k1 & (x ^ (x <<  7));
         x ^=       t ^ (t >>  7) ;
-        BitBoard(x)
+        Self(x)
     }
 
     pub fn clockwise(&self) -> BitBoard {
@@ -101,7 +101,7 @@ impl BitBoard {
         let mut n = 0u64;
         let mut v = vec!();
         loop {
-            v.push(BitBoard::new(n));
+            v.push(Self::new(n));
             n = (n - d) & d;
             if n == 0 {break}
         }
@@ -186,7 +186,7 @@ impl Iterator for BitBoard {
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.0 == 0 {return None}
-        let bit = BitBoard(1<< self.trailing_zeros());
+        let bit = Self(1<< self.trailing_zeros());
         *self ^= bit;
         Some(bit)
     }
