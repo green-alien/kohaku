@@ -30,6 +30,10 @@ impl BitBoard {
     pub const fn new(u: u64) -> BitBoard {
         Self(u)
     }
+    
+    pub const fn empty() -> BitBoard {
+        Self(0)
+    }
 
     // Contents of BitBoard
     pub fn is(self) -> u64 {

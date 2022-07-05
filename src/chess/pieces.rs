@@ -23,17 +23,16 @@ pub struct Piece(pub Type, pub Color);
 impl Piece {
     pub fn to_char(&self) -> char {
         let arr = match self.1 {
-            Color::Black => ['♚','♟','♛','♜','♝','♞'],
-            Color::White => ['♔','♙','♕','♖','♗','♘']
+            Color::Black => ['♚', '♟', '♛', '♜', '♝', '♞'],
+            Color::White => ['♔', '♙', '♕', '♖', '♗', '♘'],
         };
-        let ch = match self.0{
+        let ch = match self.0 {
             Type::King   => arr[0],
             Type::Pawn   => arr[1],
             Type::Queen  => arr[2],
             Type::Rook   => arr[3],
             Type::Bishop => arr[4],
             Type::Knight => arr[5],
-
         };
         ch
     }
@@ -43,7 +42,7 @@ impl Piece {
 }
 
 impl fmt::Display for Piece {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
-        write!(f,"{}", self.to_string())
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.to_string())
     }
 }

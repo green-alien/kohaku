@@ -41,4 +41,6 @@ impl Index {
         if shifted_indx < 0 || shifted_indx >= 64 {return None}
         Some(INDEX_LOOK_UP[shifted_indx as usize])
     }
+
+    pub fn from_str(s: &str) -> Index {todo!()}
 }
