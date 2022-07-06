@@ -8,7 +8,7 @@ use std::fmt;
 use bitintr::Pext;
 
 /// a little endian, row-major, turth table for a chess board
-#[derive(PartialEq, Clone, Copy)]
+#[derive(PartialEq, Clone, Copy, Debug)]
 pub struct BitBoard(u64);
 
 // Attack set of unobstructed rook on E5 //                      
@@ -100,8 +100,8 @@ impl BitBoard {
     }
 
     // https://www.chessprogramming.org/Traversing_Subsets_of_a_Set
-    pub fn carry_rippler(b :BitBoard) -> Vec<BitBoard> {
-        let d = b.is();
+    pub fn carry_rippler(mask :BitBoard) -> Vec<BitBoard> {
+        let d = mask.is();
         let mut n = 0u64;
         let mut v = vec!();
         loop {
@@ -114,7 +114,6 @@ impl BitBoard {
 }
 
 /* implement bit operations for BitBoard */
-
 
 // &
 impl BitAnd for BitBoard {
@@ -190,7 +189,7 @@ impl Iterator for BitBoard {
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.0 == 0 {return None}
-        let bit = Self(1<< self.trailing_zeros());
+        let bit = Self(1 << self.trailing_zeros());
         *self ^= bit;
         Some(bit)
     }
@@ -204,11 +203,11 @@ impl fmt::Display for BitBoard {
         // hex reperesentation for consise reference
         let mut output = format!("    {:#x}\n", n);
         // print the board from white's pov
-        //rows
+        // rows
         for i in 0..8 {
             let row = 8 - i;
             output = format!("{}{}     ", output, row);
-            //columns
+            // columns
             for j in 0..8 {
                 let b = get(*self, (7 - i) * 8 + j);
                 output = format!("{}{} ", output, b)

@@ -91,6 +91,8 @@ pub fn knight_mask(index: Index) -> BitBoard {
     BitBoard::new(km.rotate_left(i) & knight_anti_wrap_mask())
 }
 
+pub fn bishop_mask(index: Index) -> BitBoard { todo!() }
+
 /// produce rook moves from a given index
 pub fn rook_mask(index: Index) -> BitBoard {
     // "
@@ -102,3 +104,5 @@ pub fn rook_mask(index: Index) -> BitBoard {
     // shift columen and row and negate their intersection
     BitBoard::new(column.rotate_left(i % 8) ^ row.rotate_left(i - (i % 8)))
 }
+
+pub fn queen_mask(index: Index) -> BitBoard { todo!() }

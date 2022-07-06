@@ -36,11 +36,18 @@ impl Index {
     }
 
     /// return an index shifted by a given offset
-    pub fn shift(&self, offset: i32) -> Option<Index> {
-        let shifted_indx = (*self as i32) + offset;
-        if shifted_indx < 0 || shifted_indx >= 64 {return None}
-        Some(INDEX_LOOK_UP[shifted_indx as usize])
-    }
+    //pub fn shift(&self, offset: i32) -> Option<Index> {
+    //    let shifted_idx = (*self as i32) + offset;
+    //    if shifted_idx < 0 || shifted_idx >= 64 {return None}
+    //    Some(INDEX_LOOK_UP[shifted_idx as usize])
+    //}
 
-    pub fn from_str(s: &str) -> Index {todo!()}
+    pub fn from_str(s: &str) -> Option<Index> {
+        let mut chars = s.chars();
+        let rank = chars.next()?;
+        let file = chars.next()?;
+        let idx = (rank as usize * 8) + file as usize;
+        if idx >= 64 {return None}
+        Some(INDEX_LOOK_UP[idx])
+    }
 }

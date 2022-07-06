@@ -3,38 +3,40 @@ use crate::chess::pieces::Color;
 use crate::chess::index::Index;
 
 /// total game state
-struct State {
+#[derive(Debug)]
+pub struct State {
     // pysical
-    board: Board, 
+    pub board: Board, 
     // meta
-    active_color: Color,
-    castling_rights: String,
-    en_passant: Option<Index>,
-    half_move_count: u8,
-    full_move_count: u8,
+    pub active_color: Color,
+    pub castling_rights: String,
+    pub en_passant: Option<Index>,
+    pub half_move_count: u8,
+    pub full_move_count: u8,
 }
 
 impl State {}
 
 /// pysical game state
 /// a piece wise representation of a chess board and it's pieces
-struct Board {
-    black_pawns: BitBoard,
-    black_knights: BitBoard,
-    black_bishops: BitBoard,
-    black_rooks: BitBoard,
-    black_queens: BitBoard,
-    black_king: BitBoard,
-    white_pawns: BitBoard,
-    white_knights: BitBoard,
-    white_bishops: BitBoard,
-    white_rooks: BitBoard,
-    white_queens: BitBoard,
-    white_king: BitBoard,
+#[derive(Debug)]
+pub struct Board {
+    pub black_pawns: BitBoard,
+    pub black_knights: BitBoard,
+    pub black_bishops: BitBoard,
+    pub black_rooks: BitBoard,
+    pub black_queens: BitBoard,
+    pub black_king: BitBoard,
+    pub white_pawns: BitBoard,
+    pub white_knights: BitBoard,
+    pub white_bishops: BitBoard,
+    pub white_rooks: BitBoard,
+    pub white_queens: BitBoard,
+    pub white_king: BitBoard,
 
-    black: BitBoard,
-    white: BitBoard,
-    occupency: BitBoard,
+    pub black: BitBoard,
+    pub white: BitBoard,
+    pub occupency: BitBoard,
 }
 
 impl Board {
@@ -43,7 +45,7 @@ impl Board {
         let [mut bp, mut bn, mut bb, mut br, mut bq, mut bk,
              mut wp, mut wn, mut wb, mut wr, mut wq, mut wk] 
             = [0; 12];
-        for ch in fen_board.chars() {
+        for ch in fen_board.chars().rev() {
             match ch {
                 'p' => bp |= 1 << idx,
                 'n' => bn |= 1 << idx,
@@ -58,7 +60,7 @@ impl Board {
                 'Q' => wq |= 1 << idx,
                 'K' => wk |= 1 << idx,
                 '/' => continue,
-                '1'..='8' => idx += ch as u32 - '0' as u32,
+                '1'..='8' => idx += ch as u32 - '0' as u32 - 1,
                 _ => unreachable!(),
             };
             idx += 1;
@@ -91,7 +93,7 @@ impl Board {
 
 
 /// Forsyth Edwards Notation
-struct Fen(String);
+pub struct Fen(String);
 
 
 impl Fen {
@@ -110,6 +112,7 @@ impl Fen {
         let castling_rights = split_fen.next().unwrap().to_string();
 
         let ep_str = split_fen.next().unwrap();
+        let en_passant = Index::from_str(ep_str);
 
         let hmc_str = split_fen.next().unwrap();
         let half_move_count = hmc_str.parse::<u8>().unwrap();
@@ -121,7 +124,7 @@ impl Fen {
             board: board,
             active_color: active_color,
             castling_rights: castling_rights,
-            en_passant: None,
+            en_passant: en_passant,
             half_move_count: half_move_count,
             full_move_count: full_move_count,
         }
