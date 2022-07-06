@@ -45,7 +45,13 @@ impl Board {
         let [mut bp, mut bn, mut bb, mut br, mut bq, mut bk,
              mut wp, mut wn, mut wb, mut wr, mut wq, mut wk] 
             = [0; 12];
-        for ch in fen_board.chars().rev() {
+        let fen_board = fen_board
+            .rsplit("/")
+            .fold(String::from(""), 
+                |out, new| {[out, new.to_string()].concat()}
+            );
+
+        for ch in fen_board.chars() {
             match ch {
                 'p' => bp |= 1 << idx,
                 'n' => bn |= 1 << idx,
@@ -59,7 +65,6 @@ impl Board {
                 'R' => wr |= 1 << idx,
                 'Q' => wq |= 1 << idx,
                 'K' => wk |= 1 << idx,
-                '/' => continue,
                 '1'..='8' => idx += ch as u32 - '0' as u32 - 1,
                 _ => unreachable!(),
             };
