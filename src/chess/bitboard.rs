@@ -5,7 +5,7 @@ use std::ops::{
     BitAndAssign, BitOrAssign, BitXorAssign
 };
 use std::fmt;
-use bitintr::Pext;
+//use bitintr::Pext;
 
 /// a little endian, row-major, turth table for a chess board
 #[derive(PartialEq, Clone, Copy, Debug)]
@@ -31,9 +31,9 @@ impl BitBoard {
         Self(u)
     }
     
-    pub const fn empty() -> BitBoard {
-        Self(0)
-    }
+    //pub const fn empty() -> BitBoard {
+    //    Self(0)
+    //}
 
     // Contents of BitBoard
     pub fn is(self) -> u64 {
@@ -47,68 +47,69 @@ impl BitBoard {
     // shamelessly copied form people way smarter than me:
     // https://www.chessprogramming.org/Flipping_Mirroring_and_Rotating#Horizontal
     
-    pub fn flip_vertical(&self) -> BitBoard {
-        let mut x = self.0;
-        let k1 = 0x00ff00ff00ff00ffu64;
-        let k2 = 0x0000ffff0000ffffu64;
-        x = ((x >>  8) & k1) | ((x & k1) <<  8);
-        x = ((x >> 16) & k2) | ((x & k2) << 16);
-        x = ( x >> 32)       | ( x       << 32);
-        Self(x)
-    }
+    //pub fn flip_vertical(&self) -> BitBoard {
+    //    let mut x = self.0;
+    //    let k1 = 0x00ff00ff00ff00ffu64;
+    //    let k2 = 0x0000ffff0000ffffu64;
+    //    x = ((x >>  8) & k1) | ((x & k1) <<  8);
+    //    x = ((x >> 16) & k2) | ((x & k2) << 16);
+    //    x = ( x >> 32)       | ( x       << 32);
+    //    Self(x)
+    //}
 
-    pub fn mirror_horizontal(&self) -> BitBoard {
-        let mut x = self.0;
-        let k1 = 0x5555555555555555u64;
-        let k2 = 0x3333333333333333u64;
-        let k4 = 0x0f0f0f0f0f0f0f0fu64;
-        x = ((x >> 1) & k1) | ((x & k1) << 1);
-        x = ((x >> 2) & k2) | ((x & k2) << 2);
-        x = ((x >> 4) & k4) | ((x & k4) << 4);
-        Self(x)
-    }
+    //pub fn mirror_horizontal(&self) -> BitBoard {
+    //    let mut x = self.0;
+    //    let k1 = 0x5555555555555555u64;
+    //    let k2 = 0x3333333333333333u64;
+    //    let k4 = 0x0f0f0f0f0f0f0f0fu64;
+    //    x = ((x >> 1) & k1) | ((x & k1) << 1);
+    //    x = ((x >> 2) & k2) | ((x & k2) << 2);
+    //    x = ((x >> 4) & k4) | ((x & k4) << 4);
+    //    Self(x)
+    //}
 
-    pub fn flip_diag_a1h8(&self) -> BitBoard{
-        let mut x = self.0;
-        let mut t;
-        let k1 = 0x5500550055005500u64;
-        let k2 = 0x3333000033330000u64;
-        let k4 = 0x0f0f0f0f00000000u64;
-        t  = k4 & (x ^ (x << 28));
-        x ^=       t ^ (t >> 28) ;
-        t  = k2 & (x ^ (x << 14));
-        x ^=       t ^ (t >> 14) ;
-        t  = k1 & (x ^ (x <<  7));
-        x ^=       t ^ (t >>  7) ;
-        Self(x)
-    }
+    //pub fn flip_diag_a1h8(&self) -> BitBoard{
+    //    let mut x = self.0;
+    //    let mut t;
+    //    let k1 = 0x5500550055005500u64;
+    //    let k2 = 0x3333000033330000u64;
+    //    let k4 = 0x0f0f0f0f00000000u64;
+    //    t  = k4 & (x ^ (x << 28));
+    //    x ^=       t ^ (t >> 28) ;
+    //    t  = k2 & (x ^ (x << 14));
+    //    x ^=       t ^ (t >> 14) ;
+    //    t  = k1 & (x ^ (x <<  7));
+    //    x ^=       t ^ (t >>  7) ;
+    //    Self(x)
+    //}
 
-    pub fn clockwise(&self) -> BitBoard {
-        self.flip_diag_a1h8().flip_vertical()
-    }
+    //pub fn clockwise(&self) -> BitBoard {
+    //    self.flip_diag_a1h8().flip_vertical()
+    //}
 
-    pub fn anti_clockwise(&self) -> BitBoard {
-        self.flip_vertical().flip_diag_a1h8()
-    }
+    //pub fn anti_clockwise(&self) -> BitBoard {
+    //    self.flip_vertical().flip_diag_a1h8()
+    //}
 
-    pub fn turn_pi_radians(&self) -> BitBoard {
-        self.flip_vertical().mirror_horizontal()
-    }
+    //pub fn turn_pi_radians(&self) -> BitBoard {
+    //    self.flip_vertical().mirror_horizontal()
+    //}
 
-    pub fn pext(&self, mask: u64) -> u64 {
-        self.0.pext(mask)
-    }
+    //pub fn pext(&self, mask: u64) -> u64 {
+    //    self.0.pext(mask)
+    //}
 
     // https://www.chessprogramming.org/Traversing_Subsets_of_a_Set
-    pub fn carry_rippler(mask :BitBoard) -> Vec<BitBoard> {
-        let d = mask.is();
+    pub fn carry_rippler(&self) -> Vec<BitBoard> {
+        let d = self.is();
         let mut n = 0u64;
         let mut v = vec!();
         loop {
             v.push(Self::new(n));
-            n = (n - d) & d;
+            n = (n.wrapping_sub(d)) & d;
             if n == 0 {break}
         }
+        //v.reverse();
         v
     }
 }
@@ -184,16 +185,16 @@ impl Shr for BitBoard {
 }
 
 // do it over and over and over and over and over and over and over and ...
-impl Iterator for BitBoard {
-    type Item = BitBoard;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        if self.0 == 0 {return None}
-        let bit = Self(1 << self.trailing_zeros());
-        *self ^= bit;
-        Some(bit)
-    }
-}
+//impl Iterator for BitBoard {
+//    type Item = BitBoard;
+//
+//    fn next(&mut self) -> Option<Self::Item> {
+//        if self.0 == 0 {return None}
+//        let bit = Self(1 << self.trailing_zeros());
+//        *self ^= bit;
+//        Some(bit)
+//    }
+//}
 
 // make me look pretty
 impl fmt::Display for BitBoard {

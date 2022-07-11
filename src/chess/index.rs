@@ -14,7 +14,7 @@ pub enum Index {
     A8, B8, C8, D8, E8, F8, G8, H8,    
 }
 
-/// lookup table for conversion ops
+/// lookup table for conversion ops and convenent iteration over the board
 pub const INDEX_LOOK_UP: [Index; 64] = [
     Index::A1, Index::B1, Index::C1, Index::D1, Index::E1, Index::F1, Index::G1, Index::H1,
     Index::A2, Index::B2, Index::C2, Index::D2, Index::E2, Index::F2, Index::G2, Index::H2,
@@ -36,16 +36,17 @@ impl Index {
     }
 
     /// return an index shifted by a given offset
-    //pub fn shift(&self, offset: i32) -> Option<Index> {
-    //    let shifted_idx = (*self as i32) + offset;
-    //    if shifted_idx < 0 || shifted_idx >= 64 {return None}
-    //    Some(INDEX_LOOK_UP[shifted_idx as usize])
-    //}
+    pub fn shift(&self, offset: i32) -> Option<Index> {
+        let shifted_idx = (*self as i32) + offset;
+        if shifted_idx < 0 || shifted_idx >= 64 {return None}
+        Some(INDEX_LOOK_UP[shifted_idx as usize])
+    }
 
+    // FIX ME PLZ
     pub fn from_str(s: &str) -> Option<Index> {
         let mut chars = s.chars();
-        let rank = chars.next()?;
-        let file = chars.next()?;
+        let rank = chars.next()?; // need extra checks here for valid chars  
+        let file = chars.next()?; // need extra checks here for valid chars
         let idx = (rank as usize * 8) + file as usize;
         if idx >= 64 {return None}
         Some(INDEX_LOOK_UP[idx])

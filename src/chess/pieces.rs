@@ -8,6 +8,7 @@ pub enum Color {
 }
 
 #[derive(PartialEq, Eq, Hash, Debug, Clone, Copy)]
+#[allow(dead_code)]
 pub enum Type {
     King,
     Queen,

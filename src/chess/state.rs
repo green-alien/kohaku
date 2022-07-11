@@ -15,42 +15,47 @@ pub struct State {
     pub full_move_count: u8,
 }
 
-impl State {}
+impl State {
+    
+    //todo: gen legal moves, 
+}
 
 /// pysical game state
 /// a piece wise representation of a chess board and it's pieces
 #[derive(Debug)]
 pub struct Board {
-    pub black_pawns: BitBoard,
+    pub black_pawns:   BitBoard,
     pub black_knights: BitBoard,
     pub black_bishops: BitBoard,
-    pub black_rooks: BitBoard,
-    pub black_queens: BitBoard,
-    pub black_king: BitBoard,
-    pub white_pawns: BitBoard,
+    pub black_rooks:   BitBoard,
+    pub black_queens:  BitBoard,
+    pub black_king:    BitBoard,
+    pub white_pawns:   BitBoard,
     pub white_knights: BitBoard,
     pub white_bishops: BitBoard,
-    pub white_rooks: BitBoard,
-    pub white_queens: BitBoard,
-    pub white_king: BitBoard,
+    pub white_rooks:   BitBoard,
+    pub white_queens:  BitBoard,
+    pub white_king:    BitBoard,
 
-    pub black: BitBoard,
-    pub white: BitBoard,
+    pub black:     BitBoard,
+    pub white:     BitBoard,
     pub occupency: BitBoard,
 }
 
 impl Board {
     pub fn from_fen(fen_board: String) -> Self {
-        let mut idx = 0;
+        
         let [mut bp, mut bn, mut bb, mut br, mut bq, mut bk,
              mut wp, mut wn, mut wb, mut wr, mut wq, mut wk] 
             = [0; 12];
+        
         let fen_board = fen_board
             .rsplit("/")
             .fold(String::from(""), 
                 |out, new| {[out, new.to_string()].concat()}
             );
 
+        let mut idx = 0;
         for ch in fen_board.chars() {
             match ch {
                 'p' => bp |= 1 << idx,
@@ -70,6 +75,7 @@ impl Board {
             };
             idx += 1;
         }
+
         let b = bp | bn | bb | br | bq | bk;
         let w = wp | wn | wb | wr | wq | wk;
         let o = b | w;
@@ -100,7 +106,6 @@ impl Board {
 /// Forsyth Edwards Notation
 pub struct Fen(String);
 
-
 impl Fen {
     pub fn to_state(&self) -> State {
         let mut split_fen = self.0.split(" ");
@@ -126,10 +131,10 @@ impl Fen {
         let full_move_count = fmc_str.parse::<u8>().unwrap();
 
         State {
-            board: board,
-            active_color: active_color,
+            board:           board,
+            active_color:    active_color,
             castling_rights: castling_rights,
-            en_passant: en_passant,
+            en_passant:      en_passant,
             half_move_count: half_move_count,
             full_move_count: full_move_count,
         }
